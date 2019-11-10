@@ -5,15 +5,16 @@ using UnityEngine;
 
 public class Block : MonoBehaviour, IObject
 {
-    public float DropUnits = 0;
-    public Sprite DropSprite;
+
     public string name = "block";
+    public float DropUnits = 0;
+    public int plane = 0;
+    public Sprite DropSprite;
     public AudioClip drilSound;
     public AudioClip dropSound;
-    public int plane = 0;
-    public int phisicsLayer = 1;
-    public int renderLayer = 3;
-    public bool isTexture = false;
+    
+    private int phisicsLayer = 1;
+    private int renderLayer = 3;
 
 
     public List<Condition> conditions { get; private set; }
@@ -53,17 +54,16 @@ public class Block : MonoBehaviour, IObject
 
     protected virtual void Start()
     {
-        if (isTexture)
-        {
-            Destroy(GetComponent<BoxCollider2D>());
-            Destroy(GetComponent<Rigidbody2D>());
-        }
         switch(plane)
         {
             case 0: renderLayer = 3; phisicsLayer = 1; transform.position += new Vector3(0, 0, -0.1f); break;
-            case 1: renderLayer = 2; phisicsLayer = 2; break;
+            case 1: renderLayer = 2; phisicsLayer = 2; transform.position += new Vector3(0, 0, -0.05f); break;
+            case 2: renderLayer = 1;
+                GetComponent<SpriteRenderer>().color -= new Color(0.3f, 0.3f, 0.3f, 0);
+                Destroy(GetComponent<BoxCollider2D>());
+                Destroy(GetComponent<Rigidbody2D>());
+                break;
         }
-        //audioSource = GetComponent<AudioSource>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         rigidbody2D = GetComponent<Rigidbody2D>();
         grounGenerator = transform.parent.GetComponent<GrounGenerator>();
@@ -77,7 +77,7 @@ public class Block : MonoBehaviour, IObject
     protected virtual void Update()
     {
         if(CurrentCondition == Condition.Material)
-        if (isPressed && !isTexture)
+        if (isPressed)
         {
             if (!audioSource.isPlaying)
                 audioSource.Play();

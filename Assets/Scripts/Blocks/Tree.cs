@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Tree", menuName = "Objects/Tree", order = 51)]
+[CreateAssetMenu(fileName = "Tree", menuName = "Objects/Tree")]
 public class Tree : ScriptableObject
 {
     public AudioClip woodSound;
@@ -54,14 +54,13 @@ public class Tree : ScriptableObject
         }
         else
         {
-            block.name = "tree";
+            if (sprite == Base) block.name = "tree_base";
+            else block.name = "tree";
             block.drilSound = woodSound;
             block.DropUnits = 1;
         }
         block.dropSound = dropSound;
         block.plane = 1;
-        block.phisicsLayer = 2;
-        block.renderLayer = 2;
         block.DropSprite = sprite;
         return block;
     }
@@ -70,6 +69,6 @@ public class Tree : ScriptableObject
     public Block SettingWood(Sprite sprite)
     {
         return new Block { DropUnits=1, name="tree", drilSound=woodSound,
-            dropSound = dropSound, plane = 1, phisicsLayer = 2, renderLayer = 2, DropSprite = sprite};
+            dropSound = dropSound, plane = 1, DropSprite = sprite};
     }
 }

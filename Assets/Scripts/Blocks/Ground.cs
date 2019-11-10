@@ -52,10 +52,10 @@ public class Ground : Block
             int x = (int)transform.position.x;
             int y = (int)transform.position.y;
             
-             up = grounGenerator.IsElementAtPosition(plane, x, y + 2);
-             left = grounGenerator.IsElementAtPosition(plane, x - 2, y);
-             right = grounGenerator.IsElementAtPosition(plane, x + 2, y);
-             down = grounGenerator.IsElementAtPosition(plane, x, y - 2);
+             up = grounGenerator.IsElementAtPosition(plane, x, y +1);
+             left = grounGenerator.IsElementAtPosition(plane, x - 1, y);
+             right = grounGenerator.IsElementAtPosition(plane, x + 1, y);
+             down = grounGenerator.IsElementAtPosition(plane, x, y - 1);
 
             if (up)
             {

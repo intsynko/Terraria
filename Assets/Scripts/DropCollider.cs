@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
 public delegate void ToolBarDelegate(Dictionary<Block, int> toolBarBlocks);
 
@@ -18,13 +19,8 @@ public class DropCollider : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             Vector2 position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            int x = (int)position.x;
-            int y = (int)position.y;
-            // вычисляем координаты ближайшей целой точки
-            if (Mathf.Abs(x) % 2 >= 1)
-                x = (int) Mathf.Sign(x) * Mathf.Abs(x) + 1;
-            if (Mathf.Abs(y) % 2 >= 1)
-                y = (int) Mathf.Sign(y) * Mathf.Abs(y) + 1;
+            int x = Convert.ToInt32(position.x);
+            int y = Convert.ToInt32(position.y);
             int plane = ToolBarController.CurrentType.plane;
             // если нет зарегистрированного элемента в данной позиции
             if (!grounGenerator.IsElementAtPosition(plane, x, y))

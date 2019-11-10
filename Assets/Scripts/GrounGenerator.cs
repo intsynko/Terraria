@@ -13,7 +13,7 @@ public class GrounGenerator : MonoBehaviour
 
     private AudioSource audioSource;
 
-    public bool[,,] matrix = new bool[2, 2 * 1000 , 2 * 1000 ];
+    public bool[,,] matrix = new bool[3, 2 * 1000 , 2 * 1000 ];
     private int matrixOffset;
     
 
@@ -32,33 +32,32 @@ public class GrounGenerator : MonoBehaviour
         
             int cur_x = -200;
             int cur_y = 0;
-            while (cur_x <= 200)
+        while (cur_x <= 200)
+        {
+            int len = Random.Range(5, 30);
+            int h = Random.Range(-10, 10);
+            float k = (float)h / len;
+            // сначала генерируем задний план, потом передний
+            foreach (int plane in new int[] { 2, 0 })
             {
-                int len = Random.Range(5, 30);
-                int h = Random.Range(-10, 10);
-                if (len % 2 != 0) len += 1;
-                if (h % 2 != 0) h += 1;
-                float k = (float)h / len;
-                for (int plane = 1; plane >= 0; plane--)
-                for (int x = cur_x; x < cur_x + len; x+=2)
+                for (int x = cur_x; x < cur_x + len; x++)
                 {
                     float y = cur_y + k * (x - cur_x);
                     if (y % 2 != 0) y += 1;
-                    for (int j = -80; j <= y; j += 2)
+                    for (int j = -80; j <= y; j++)
                     {
                         RandGenerate(plane, new Vector3(x, j));
                     }
                     heights[x + _offset] = (int)y;
                 }
-                cur_x += len;
-                cur_y += h;
-                //if (cur_x % 2 != 0) cur_x = -1;
-                //if (cur_y % 2 != 0) cur_y = -1;
             }
+            cur_x += len;
+            cur_y += h;
+        }
         
-
+        // ставим игрока чуть выше верхнего блока
         var pp = player.transform.position;
-        player.transform.position = new Vector3(pp.y, heights[(int)pp.x + _offset]);
+        player.transform.position = new Vector3(pp.y, heights[(int)pp.x + _offset] + 1);
 
 
         // Создание деревьев
@@ -72,13 +71,17 @@ public class GrounGenerator : MonoBehaviour
                     for (int j = 0; j < 5; j++)
                     {
                         // создаем объект, вышем на него Block, и прогоняем через функцию создания дерева
-                        GameObject b = Instantiate(freePref, transform.position + new Vector3(k + j * 2, heights[k + _offset] + i * 2), Quaternion.identity);
+                        GameObject b = Instantiate(
+                            freePref,
+                            transform.position + new Vector3(k + j, heights[k + _offset] + i),
+                            Quaternion.identity);
                         b.transform.SetParent(transform);
                         Block blck = b.AddComponent<Block>();
                         blck.audioSource = audioSource;
                         blck = cur_tree.GetTree(i, j, blck);
                         if (blck == null) Destroy(b);
                     }
+                k += 6;
             }
         }
     }
@@ -113,11 +116,6 @@ public class GrounGenerator : MonoBehaviour
             obj.transform.SetParent(transform);
             obj.GetComponent<Block>().plane = plane;
             obj.GetComponent<Block>().audioSource = audioSource;
-            if (plane == 1)
-            {
-                obj.GetComponent<SpriteRenderer>().color = a.GetComponent<SpriteRenderer>().color - new Color(0.3f, 0.3f, 0.3f, 0);
-                obj.GetComponent<Block>().isTexture = true;
-            }
         }
     }
 
