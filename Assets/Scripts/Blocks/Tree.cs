@@ -13,6 +13,10 @@ public class Tree : ScriptableObject
     public Sprite Thrunk;
     public Sprite Crown;
 
+    public GameObject BasePref;
+    public GameObject ThrunkPref;
+    public GameObject CrownPref;
+
 
     public Block GetTree(int i, int j, Block b)
     {
@@ -32,14 +36,16 @@ public class Tree : ScriptableObject
 
     }
 
-    public Block[,] GetTree()
+    public GameObject[,] GetTree()
     {
-       return new Block[5,2]{
-            {SettingWood(Thrunk), SettingWood(Base) },
-            {SettingWood(Thrunk), null},
-            {SettingWood(Thrunk), null},
-            {SettingWood(Thrunk), null},
-            {SettingWood(Crown), null}
+       return new GameObject[7,5]{
+            {null, BasePref, ThrunkPref, null, null},
+            {null, null, ThrunkPref, null, null},
+            {null, null, ThrunkPref, null, null},
+            {null, CrownPref, ThrunkPref, CrownPref, null},
+            {CrownPref, CrownPref, CrownPref, CrownPref, CrownPref},
+            {null, CrownPref, CrownPref, CrownPref, null},
+            {null, null, CrownPref, null, null}
         };
     }
 

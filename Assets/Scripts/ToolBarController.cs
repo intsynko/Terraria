@@ -34,6 +34,7 @@ public class ToolBarController : MonoBehaviour
             ToolBarButtons[i].transform.GetChild(1).GetComponent<Text>().text = keyValue.Value + "";
             ToolBarButtons[i].gameObject.SetActive(true);
             i++;
+            if (i == ToolBarButtons.Length) break;
         }
         UpdateCurType(cur_num_btn);
     }

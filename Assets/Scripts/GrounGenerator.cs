@@ -34,8 +34,8 @@ public class GrounGenerator : MonoBehaviour
             int cur_y = 0;
         while (cur_x <= 200)
         {
-            int len = Random.Range(5, 30);
-            int h = Random.Range(-10, 10);
+            int len = Random.Range(7, 30);
+            int h = Random.Range(-15, 15);
             float k = (float)h / len;
             // сначала генерируем задний план, потом передний
             foreach (int plane in new int[] { 2, 0 })
@@ -67,21 +67,21 @@ public class GrounGenerator : MonoBehaviour
             if (Random.RandomRange(0, 101) > 90)
             {
                 Tree cur_tree = trees[Random.Range(0, trees.Length)];
-                for (int i = 0; i < 7; i++)
-                    for (int j = 0; j < 5; j++)
+                GameObject[,] blocks = cur_tree.GetTree();
+                for (int i = 0; i < blocks.GetLength(0); i++)
+                    for (int j = 0; j < blocks.GetLength(1); j++)
                     {
-                        // создаем объект, вышем на него Block, и прогоняем через функцию создания дерева
-                        GameObject b = Instantiate(
-                            freePref,
-                            transform.position + new Vector3(k + j, heights[k + _offset] + i),
-                            Quaternion.identity);
-                        b.transform.SetParent(transform);
-                        Block blck = b.AddComponent<Block>();
-                        blck.audioSource = audioSource;
-                        blck = cur_tree.GetTree(i, j, blck);
-                        if (blck == null) Destroy(b);
+                        if (blocks[i, j] != null)
+                        {
+                            GameObject b = Instantiate(
+                                blocks[i, j],
+                                transform.position + new Vector3(k + j, heights[k + _offset] + i),
+                                Quaternion.identity);
+                            b.transform.SetParent(transform);
+                            b.GetComponent<Block>().audioSource = audioSource;
+                        }
                     }
-                k += 6;
+                k += blocks.GetLength(0);
             }
         }
     }

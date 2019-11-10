@@ -18,3 +18,9 @@ MonoBehaviour:
   Base: {fileID: 21300000, guid: 34f12bb7f76722849a3d87f6a542f94a, type: 3}
   Thrunk: {fileID: 21300000, guid: 8058d1ac537009d4aaa3f9ac44b423d5, type: 3}
   Crown: {fileID: 21300000, guid: ea00bf7babbe9f84694a45e842c63128, type: 3}
+  BasePref: {fileID: 2983468943941131182, guid: ccdac6e408af86b459474f39ad6eb22a,
+    type: 3}
+  ThrunkPref: {fileID: 3854852732229375918, guid: 0f4e929be778b8041a58571d233ab83e,
+    type: 3}
+  CrownPref: {fileID: 5530972473296295769, guid: 116860f1bd9e4514b99f81e32b1a450b,
+    type: 3}
